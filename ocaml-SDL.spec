@@ -9,9 +9,9 @@ Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
 # Source0-md5:	3829b20bd975e3bef5195a54e2cd04cb
 URL:		http://ocamlsdl.sourceforge.net/
 BuildRequires:	SDL-devel
+BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_ttf-devel
-BuildRequires:	SDL_image-devel
 BuildRequires:	ocaml >= 3.07
 BuildRequires:	ocaml-lablgl-devel
 %requires_eq	ocaml-runtime
@@ -23,6 +23,13 @@ between the ML programming language and the SDL C library.
 
 This package contains files needed to run bytecode executables using
 this library.
+
+%description -l pl
+OCamlSDL to próba napisania interfejsu programowego miêdzy jêzykiem
+programowania ML a bibliotek± C SDL.
+
+Ten pakiet zawiera pliki potrzebne do uruchamiania wykonywalnego
+bytecodu u¿ywaj±cego tej biblioteki.
 
 %package devel
 Summary:	SDL binding for OCaml - development part
@@ -37,6 +44,13 @@ between the ML programming language and the SDL C library.
 
 This package contains files needed to develop OCaml programs using
 this library.
+
+%description devel -l pl
+OCamlSDL to próba napisania interfejsu programowego miêdzy jêzykiem
+programowania ML a bibliotek± C SDL.
+
+Ten pakiet zawiera pliki potrzebne do tworzenia programów w OCamlu
+u¿ywaj±cych tej biblioteki.
 
 %prep
 %setup -q -n ocamlsdl-%{version}
