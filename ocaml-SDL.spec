@@ -80,4 +80,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc README AUTHORS NEWS doc/html doc/ocaml*
 %dir %{_libdir}/ocaml/sdl
 %{_libdir}/ocaml/sdl/*
-%attr(755, root, root) %{_libdir}/ocaml/stublibs/*
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/*
