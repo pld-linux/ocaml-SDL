@@ -2,7 +2,7 @@ Summary:	SDL binding for OCaml
 Summary(pl):	Wi±zania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.7.1
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
@@ -11,9 +11,9 @@ URL:		http://ocamlsdl.sourceforge.net/
 BuildRequires:	SDL-devel
 BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_ttf-devel
-BuildRequires:	SDLimage-devel
-BuildRequires:	glut-devel
+BuildRequires:	SDL_image-devel
 BuildRequires:	ocaml >= 3.07
+BuildRequires:	ocaml-lablgl-devel
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -39,55 +39,17 @@ This package contains files needed to develop OCaml programs using
 this library.
 
 %prep
-%setup -q -n ocamlsdl
+%setup -q -n ocamlsdl-%{version}
 
 %build
-%{__make} -C gl \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC"
-%{__make} -C hgl \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC"
-%{__make} -C glfw \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC" \
-	X11LIBS="-L/usr/X11R6/%{_lib}"
-%{__make} -C glut \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC" \
-	X11LIBS="-L/usr/X11R6/%{_lib}"
+%configure
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/{gl,stublibs}
+install -d $RPM_BUILD_ROOT
 
-install lib/*.cm[ixa]* lib/*.a $RPM_BUILD_ROOT%{_libdir}/ocaml/gl
-install lib/dll*.so $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
-
-install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-cp -r demos/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/ocamlgl-gl
-cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/ocamlgl-gl/META <<EOF
-requires = "bigarray"
-version = "%{version}"
-directory = "+gl"
-archive(byte) = "gl.cma"
-archive(native) = "gl.cmxa"
-linkopts = ""
-EOF
-
-for f in glut hgl glfw ; do
-	install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/ocamlgl-$f
-	cat > $RPM_BUILD_ROOT%{_libdir}/ocaml/site-lib/ocamlgl-$f/META <<EOF
-requires = "ocamlgl-gl"
-version = "%{version}"
-directory = "+gl"
-archive(byte) = "$f.cma"
-archive(native) = "$f.cmxa"
-linkopts = ""
-EOF
-done
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,9 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc LICENSE glfw/license.txt README Announce doc/*
-%dir %{_libdir}/ocaml/gl
-%{_libdir}/ocaml/gl/*.cm[ixa]*
-%{_libdir}/ocaml/gl/*.a
-%{_libdir}/ocaml/site-lib/*
-%{_examplesdir}/%{name}-%{version}
+%doc README AUTHORS NEWS doc/html doc/ocaml*
+%dir %{_libdir}/ocaml/sdl
+%{_libdir}/ocaml/sdl/*
+%attr(755, root, root) %{_libdir}/ocaml/stublibs/*
