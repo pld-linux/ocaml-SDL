@@ -66,7 +66,7 @@ install -d $RPM_BUILD_ROOT
 %{__make} install \
 	OCAMLLIBDIR=%{_libdir}/ocaml \
 	OCAMLSDLDIR=%{_libdir}/ocaml/sdl \
-	DESTDIR=$RPM_BUILD_ROOT		
+	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
