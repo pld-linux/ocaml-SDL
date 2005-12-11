@@ -61,7 +61,7 @@ u¿ywaj±cych tej biblioteki.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml
 
 %{__make} install \
 	OCAMLLIBDIR=%{_libdir}/ocaml \
