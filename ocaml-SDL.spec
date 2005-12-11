@@ -2,7 +2,7 @@ Summary:	SDL binding for OCaml
 Summary(pl):	Wi±zania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.7.2
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
@@ -13,6 +13,7 @@ BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_ttf-devel
 BuildRequires:	ocaml >= 3.07
+BuildRequires:	ocaml-findlib-devel
 BuildRequires:	ocaml-lablgl-devel
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -61,12 +62,9 @@ u¿ywaj±cych tej biblioteki.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/ocaml
+install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 
 %{__make} install \
-	OCAMLLIBDIR=%{_libdir}/ocaml \
-	OCAMLSDLDIR=%{_libdir}/ocaml/sdl \
-	DESTDIR=$RPM_BUILD_ROOT \
 	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
 
 %clean
@@ -81,4 +79,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc README AUTHORS NEWS doc/html doc/ocaml*
 %dir %{_libdir}/ocaml/sdl
 %{_libdir}/ocaml/sdl/*
-%attr(755,root,root) %{_libdir}/ocaml/stublibs/*
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/*.owner
