@@ -57,6 +57,8 @@ u¿ywaj±cych tej biblioteki.
 %setup -q -n ocamlsdl-%{version}
 
 %build
+%{__aclocal} -I support
+%{__autoconf}
 %configure
 %{__make}
 
