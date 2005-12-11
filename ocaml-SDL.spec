@@ -2,7 +2,7 @@ Summary:	SDL binding for OCaml
 Summary(pl):	Wi±zania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.7.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
@@ -12,6 +12,8 @@ BuildRequires:	SDL-devel
 BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_ttf-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	ocaml >= 3.07
 BuildRequires:	ocaml-findlib-devel
 BuildRequires:	ocaml-lablgl-devel
@@ -57,6 +59,7 @@ u¿ywaj±cych tej biblioteki.
 %setup -q -n ocamlsdl-%{version}
 
 %build
+cp -f /usr/share/automake/config.* support
 %{__aclocal} -I support
 %{__autoconf}
 %configure
