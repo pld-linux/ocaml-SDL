@@ -1,6 +1,6 @@
 %define		ocaml_ver	1:3.09.2
 Summary:	SDL binding for OCaml
-Summary(pl):	Wi±zania SDL dla OCamla
+Summary(pl.UTF-8):   WiÄ…zania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.7.2
 Release:	5
@@ -28,16 +28,16 @@ between the ML programming language and the SDL C library.
 This package contains files needed to run bytecode executables using
 this library.
 
-%description -l pl
-OCamlSDL to próba napisania interfejsu programowego miêdzy jêzykiem
-programowania ML a bibliotek± C SDL.
+%description -l pl.UTF-8
+OCamlSDL to prÃ³ba napisania interfejsu programowego miÄ™dzy jÄ™zykiem
+programowania ML a bibliotekÄ… C SDL.
 
 Ten pakiet zawiera pliki potrzebne do uruchamiania wykonywalnego
-bytecodu u¿ywaj±cego tej biblioteki.
+bytecodu uÅ¼ywajÄ…cego tej biblioteki.
 
 %package devel
 Summary:	SDL binding for OCaml - development part
-Summary(pl):	Wi±zania SDL dla OCamla - cze¶æ programistyczna
+Summary(pl.UTF-8):   WiÄ…zania SDL dla OCamla - czeÅ›Ä‡ programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %requires_eq	ocaml
@@ -49,12 +49,12 @@ between the ML programming language and the SDL C library.
 This package contains files needed to develop OCaml programs using
 this library.
 
-%description devel -l pl
-OCamlSDL to próba napisania interfejsu programowego miêdzy jêzykiem
-programowania ML a bibliotek± C SDL.
+%description devel -l pl.UTF-8
+OCamlSDL to prÃ³ba napisania interfejsu programowego miÄ™dzy jÄ™zykiem
+programowania ML a bibliotekÄ… C SDL.
 
-Ten pakiet zawiera pliki potrzebne do tworzenia programów w OCamlu
-u¿ywaj±cych tej biblioteki.
+Ten pakiet zawiera pliki potrzebne do tworzenia programÃ³w w OCamlu
+uÅ¼ywajÄ…cych tej biblioteki.
 
 %prep
 %setup -q -n ocamlsdl-%{version}
