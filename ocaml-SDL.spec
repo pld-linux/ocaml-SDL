@@ -1,6 +1,6 @@
 %define		ocaml_ver	1:3.09.2
 Summary:	SDL binding for OCaml
-Summary(pl.UTF-8):   Wiązania SDL dla OCamla
+Summary(pl.UTF-8):	Wiązania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.7.2
 Release:	5
@@ -37,7 +37,7 @@ bytecodu używającego tej biblioteki.
 
 %package devel
 Summary:	SDL binding for OCaml - development part
-Summary(pl.UTF-8):   Wiązania SDL dla OCamla - cześć programistyczna
+Summary(pl.UTF-8):	Wiązania SDL dla OCamla - cześć programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %requires_eq	ocaml
