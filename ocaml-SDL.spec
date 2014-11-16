@@ -3,7 +3,7 @@ Summary:	SDL binding for OCaml
 Summary(pl.UTF-8):	Wiązania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.8.0
-Release:	1
+Release:	2
 License:	GPL
 Group:		Libraries
 Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
