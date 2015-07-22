@@ -72,14 +72,16 @@ cp -f /usr/share/automake/config.* support
 %{__aclocal} -I support
 %{__autoconf}
 %configure
-%{__make}
+%{__make} \
+	%{!?with_ocaml_opt:OCAMLOPT=}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 
 %{__make} install \
-	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
+	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml \
+	%{!?with_ocaml_opt:OCAMLOPT=}
 
 # ocamlfind-specific, useless in rpm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*.owner
