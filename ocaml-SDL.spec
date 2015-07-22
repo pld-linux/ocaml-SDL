@@ -1,22 +1,30 @@
+#
+# Conditional build:
+%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+
+%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%undefine	with_ocaml_opt
+%endif
+
 %define		ocaml_ver	1:3.09.2
 Summary:	SDL binding for OCaml
 Summary(pl.UTF-8):	Wiązania SDL dla OCamla
 Name:		ocaml-SDL
-Version:	0.8.0
-Release:	2
-License:	GPL
+Version:	0.9.1
+Release:	1
+License:	LGPL v2+
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
-# Source0-md5:	b7ee334cf107867cc8d08cbcc319c9af
+Source0:	http://downloads.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
+# Source0-md5:	c3086423991fcdc1ba468afd52fc112b
 URL:		http://ocamlsdl.sourceforge.net/
-BuildRequires:	SDL-devel
+BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	SDL_image-devel
 BuildRequires:	SDL_mixer-devel
 BuildRequires:	SDL_ttf-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ocaml >= %{ocaml_ver}
-BuildRequires:	ocaml-findlib-devel
+BuildRequires:	ocaml-findlib
 BuildRequires:	ocaml-lablgl-devel
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -73,16 +81,33 @@ install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 %{__make} install \
 	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml
 
+# ocamlfind-specific, useless in rpm
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*.owner
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/ocaml/stublibs/*.so
+%doc AUTHORS NEWS README
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlstub.so
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlgfxstub.so
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlloaderstub.so
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlmixerstub.so
+%attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlttfstub.so
 
 %files devel
 %defattr(644,root,root,755)
-%doc README AUTHORS NEWS doc/html doc/ocaml*
+%doc doc/html/*
 %dir %{_libdir}/ocaml/sdl
-%{_libdir}/ocaml/sdl/*
-%attr(755,root,root) %{_libdir}/ocaml/stublibs/*.owner
+%{_libdir}/ocaml/sdl/META
+%{_libdir}/ocaml/sdl/libsdl*.a
+%{_libdir}/ocaml/sdl/sdl*.cma
+%{_libdir}/ocaml/sdl/sdl*.cmi
+# doc?
+%{_libdir}/ocaml/sdl/sdl*.mli
+%if %{with ocaml_opt}
+%{_libdir}/ocaml/sdl/sdl*.a
+%{_libdir}/ocaml/sdl/sdl*.cmx
+%{_libdir}/ocaml/sdl/sdl*.cmxa
+%endif
