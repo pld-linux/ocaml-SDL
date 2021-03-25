@@ -1,0 +1,18 @@
+--- ocamlsdl-0.9.1.old/src/sdlmouse.ml	2011-04-10 16:33:52.000000000 +0100
++++ ocamlsdl-0.9.1/src/sdlmouse.ml	2017-11-18 11:24:01.989795950 +0000
+@@ -49,12 +49,12 @@
+     = "ml_SDL_Cursor_data"
+ 
+ let string_of_bits x =
+-  let s = String.make 8 ' ' in
++  let s = Bytes.make 8 ' ' in
+   for i=0 to 7 do
+     if x land (1 lsl i) <> 0
+-    then s.[7-i] <- '@'
++    then Bytes.set s (7-i) '@'
+   done ;
+-  s
++  Bytes.to_string s
+ 
+ let pprint_cursor c =
+   let { data = data ; mask = mask } = cursor_data c in
