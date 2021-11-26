@@ -1,8 +1,8 @@
 #
 # Conditional build:
-%bcond_without	ocaml_opt	# skip building native optimized binaries (bytecode is always built)
+%bcond_without	ocaml_opt	# native optimized binaries (bytecode is always built)
 
-%ifnarch %{ix86} %{x8664} arm aarch64 ppc sparc sparcv9
+%ifnarch %{ix86} %{x8664} %{arm} aarch64 ppc sparc sparcv9
 %undefine	with_ocaml_opt
 %endif
 
@@ -11,12 +11,13 @@ Summary:	SDL binding for OCaml
 Summary(pl.UTF-8):	Wiązania SDL dla OCamla
 Name:		ocaml-SDL
 Version:	0.9.1
-Release:	7
+Release:	8
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/ocamlsdl/ocamlsdl-%{version}.tar.gz
 # Source0-md5:	c3086423991fcdc1ba468afd52fc112b
 Patch0:		safe-string.patch
+Patch1:		%{name}-info.patch
 URL:		http://ocamlsdl.sourceforge.net/
 BuildRequires:	SDL-devel >= 1.2.0
 BuildRequires:	SDL_gfx-devel
@@ -28,6 +29,8 @@ BuildRequires:	automake
 BuildRequires:	ocaml >= %{ocaml_ver}
 BuildRequires:	ocaml-findlib
 BuildRequires:	ocaml-lablgl-devel
+BuildRequires:	rpm-build >= 4.6
+BuildRequires:	texinfo
 %requires_eq	ocaml-runtime
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -66,9 +69,22 @@ programowania ML a biblioteką C SDL.
 Ten pakiet zawiera pliki potrzebne do tworzenia programów w OCamlu
 używających tej biblioteki.
 
+%package apidocs
+Summary:	API documentation for OCaml SDL library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki OCamla SDL
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+API documentation for OCaml SDL library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki OCamla SDL.
+
 %prep
 %setup -q -n ocamlsdl-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 cp -f /usr/share/automake/config.* support
@@ -78,6 +94,9 @@ cp -f /usr/share/automake/config.* support
 %{__make} \
 	%{!?with_ocaml_opt:OCAMLOPT=}
 
+cd doc
+makeinfo --no-split ocamlsdl.texi
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
@@ -86,11 +105,20 @@ install -d $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs
 	OCAMLFIND_DESTDIR=$RPM_BUILD_ROOT%{_libdir}/ocaml \
 	%{!?with_ocaml_opt:OCAMLOPT=}
 
+install -d $RPM_BUILD_ROOT%{_infodir}
+cp -p doc/ocamlsdl.info $RPM_BUILD_ROOT%{_infodir}
+
 # ocamlfind-specific, useless in rpm
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/ocaml/stublibs/*.owner
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
+
+%postun	devel -p /sbin/postshell
+-/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
 %defattr(644,root,root,755)
@@ -100,14 +128,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlloaderstub.so
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlmixerstub.so
 %attr(755,root,root) %{_libdir}/ocaml/stublibs/dllsdlttfstub.so
+%dir %{_libdir}/ocaml/sdl
+%{_libdir}/ocaml/sdl/META
+%{_libdir}/ocaml/sdl/sdl*.cma
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/html/*
-%dir %{_libdir}/ocaml/sdl
-%{_libdir}/ocaml/sdl/META
 %{_libdir}/ocaml/sdl/libsdl*.a
-%{_libdir}/ocaml/sdl/sdl*.cma
 %{_libdir}/ocaml/sdl/sdl*.cmi
 # doc?
 %{_libdir}/ocaml/sdl/sdl*.mli
@@ -116,3 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/ocaml/sdl/sdl*.cmx
 %{_libdir}/ocaml/sdl/sdl*.cmxa
 %endif
+%{_infodir}/ocamlsdl.info*
+
+%files apidocs
+%defattr(644,root,root,755)
+%doc doc/html/*
