@@ -50,7 +50,7 @@ bytecodu używającego tej biblioteki.
 
 %package devel
 Summary:	SDL binding for OCaml - development part
-Summary(pl.UTF-8):	Wiązania SDL dla OCamla - cześć programistyczna
+Summary(pl.UTF-8):	Wiązania SDL dla OCamla - część programistyczna
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %requires_eq	ocaml
